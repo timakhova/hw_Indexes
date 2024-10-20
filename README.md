@@ -4,22 +4,32 @@
 ![1indexperc](https://github.com/timakhova/hw_Indexes/blob/main/1-1indexperc.png)
 
 # Задание 2
+
 ![1explain](https://github.com/timakhova/hw_Indexes/blob/main/2-1explain.png)
+
 ![2expln](https://github.com/timakhova/hw_Indexes/blob/main/2-2expln.png)
+
 Анализ узких мест:
 Использование DISTINCT — может быть узким местом, если требуется исключить дублирующиеся строки, особенно на больших наборах данных.
 Оператор DATE() — может приводить к тому, что индекс на payment_date не используется, так как функция DATE() применяется к колонке. Это приводит к полному сканированию таблицы.
 JOIN-ы — если не созданы индексы по ключевым полям, используемым в условиях соединения, то это может замедлить выполнение запроса.
 SUM() с PARTITION BY — оконные функции могут стать узким местом, если работают с большими наборами данных без индексов.
 Оптимизация запроса:
+
 1. Изменение запроса:
 Оптимизируем запрос, убирая использование функции DATE() над колонкой, чтобы можно было использовать индексы.
+
 ![3optim](https://github.com/timakhova/hw_Indexes/blob/main/2-3optim.png)
+
 Заменив DATE(p.payment_date) = '2005-07-30' на более точное сравнение с временными границами, мы позволяем использовать индексы на колонке payment_date.
+
 2. Добавление индексов:
 Для улучшения производительности можно добавить индексы на те колонки, которые используются в соединениях и фильтрах:
+
 ![4addindex](https://github.com/timakhova/hw_Indexes/blob/main/2-4addindex.png)
+
 Проверка оптимизации:
+
 ![5newexpl](https://github.com/timakhova/hw_Indexes/blob/main/2-5newexpl.png)
 ![6newexpln2](https://github.com/timakhova/hw_Indexes/blob/main/2-6newexpln2.png)
 
